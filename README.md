@@ -1,0 +1,1 @@
+Developed a website from scratch which allows users to build profiles, create posts with pictures and engage with each other by liking and commenting on the posts. Tech: Html5, CSS3, JavaScript, PHP, SQL, Bootstrap and Ajax.
