@@ -1,10 +1,11 @@
 <?php
   $sql = "SELECT p.post_id,p.post_imagepath,p.post_caption,p.user_id,p.time_stamp,
-  u.id,u.fname,u.lname
+  u.id,u.fname,u.lname,u.designation
   from posts as p JOIN users as u
   on u.id = p.user_id
   order by p.post_id DESC";
   $result=mysqli_query($link,$sql);
+
  ?>
 
 <div id="index">
@@ -14,25 +15,37 @@
         <div class="right">
           <div class="container-fluid">
 
-            <div class="row">
-              <div class="wrapper">
-                <div class="post_creation">
-                  <!-- form for post creation -->
-                  <form class="" action="handlers/post.php" method="post" enctype="multipart/form-data">
-                    <textarea placeholder="What's on your mind?" class="textarea" name="caption" ></textarea>
-                    <div class="buttons_pane">
-                      <input type="file" id="file" name="file" value="" style="visibility:hidden">
-                      <button type="button" onclick="takeInput()" class="button">choose image</button>
-                      <button type="submit" class="button" name="submit">post</button>
-                    </div>
-                  </form>
 
+                  <!-- form for post creation -->
+                  <?php if (!isset($_SESSION['user_id'])): ?>
+
+
+                  <?php else: ?>
+              <div class="row">
+                <div class="wrapper">
+                  <div class="post_creation">
+                    <form class="" action="handlers/post.php" method="post" enctype="multipart/form-data">
+                      <textarea placeholder="What's on your mind?" class="textarea" name="caption" ></textarea>
+                      <div class="buttons_pane">
+                        <input type="file" id="file" name="file" value="" style="visibility:hidden">
+                        <button type="button" onclick="takeInput()" class="button">choose image</button>
+                        <button type="submit" class="button" name="submit">post</button>
+                      </div>
+                    </form>
+                  </div>
                 </div>
               </div>
-            </div>
+                  <?php endif; ?>
+
+
+
+
+
+
 
             <!-- while -->
-            <?php while ($row=mysqli_fetch_assoc($result)): ?>
+            <?php while ($row=mysqli_fetch_assoc($result)):
+              ?>
               <div class="row">
                 <div class="wrapper">
                   <div class="post">
@@ -47,16 +60,16 @@
 
                                   </div>
                                   <div class="intro">
-                                    <h3><a href="profile.php"><?php echo $row['fname']; ?> <?php echo $row['lname']; ?></a></h3>
-                                    <p>software development engineer</p>
+                                    <h3><a href="clickedprofile.php?userid=<?php echo $row['user_id']; ?>"><?php echo $row['fname']; ?> <?php echo $row['lname']; ?></a></h3>
+                                    <p><?php echo $row['designation']; ?></p>
                                   </div>
                                 </div>
                                 <div class="timestamp">
                                   <p class="time"><?php echo $row['time_stamp']; ?></p>
-                                  <?php if ($row['user_id']==$_SESSION['user_id']): ?>
+                                  <?php if (isset($_SESSION['user_id'])and $_SESSION['user_id']==$row['user_id']):?>
                                     <div class="buttons_pane">
-                                      <button class="button" type="button" name="button">edit</button>
-                                      <button onclick="sendId(<?php echo $row['post_id'] ?>)"data-target='#modal' data-toggle="modal" class="button" type="submit" name="button">delete</button>
+                                      <button onclick="ajaxFetchQuery(<?php echo $row['post_id'] ?>)" class="button" data-target='#edit_modal' data-toggle="modal" type="button" name="button">edit</button>
+                                      <button onclick="sendId(<?php echo $row['post_id'] ?>)" data-target='#delete_modal' data-toggle="modal" class="button" type="submit" name="button">delete</button>
                                     </div>
                                   <?php endif; ?>
                                 </div>
@@ -64,9 +77,11 @@
                             </div>
                           </div>
                         </div>
-                        <div class="picture" style="background: url(<?php echo str_replace("../", "",$row['post_imagepath'])?>);background-position:center;background-repeat: no-repeat;background-size:cover;">
+
+                        <div id="<?php echo $row['post_id']; ?>" class="picture" style="background: url(<?php echo str_replace("../", "",$row['post_imagepath'])?>);background-position:center;background-repeat: no-repeat;background-size:cover;">
 
                         </div>
+
                         <div class="caption">
                           <h3 class="text"><?php echo $row['post_caption']; ?></h3>
                         </div>
@@ -79,9 +94,7 @@
                          ?>
                         <ul class="interactions">
                           <li onclick="increaseLikes(<?php echo $row['post_id']; ?>)">like</li>
-                          <li onclick="showComment()">comment</li>
                           <li id='likes' class="likes"><?php echo $re['sum(likes)']; ?></li>
-                          <li class="comments">0</li>
                         </ul>
 
                         <?php
@@ -97,21 +110,24 @@
                       <?php endwhile; ?>
 
                         <!-- form for generating comments -->
-                        <form  action="handlers/comments.php" method="post" enctype="multipart/form-data">
-                          <div id="comment_here" class="open comment_here">
-                            <textarea  class="comment_area" name="comment_area" ></textarea>
-                            <input type="text" name="post_id" value="<?php echo $row['post_id'];?>" style="display:none;">
-                            <div class="buttons_pane">
-                                <button type="submit" class="button" name="button">comment</button>
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                          <form  action="handlers/comments.php" method="post" enctype="multipart/form-data">
+                            <div id="comment_here" class="comment_here">
+                              <textarea id="comment_area" class="comment_area" name="comment_area" ></textarea>
+                              <input type="hidden" name="post_id" value="<?php echo $row['post_id'];?>">
+                              <div class="buttons_pane">
+                                  <button type="submit" class="button" name="button">comment</button>
+                              </div>
                             </div>
-                          </div>
-                        </form>
+                          </form>
+                        <?php endif; ?>
 
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
             <?php endwhile; ?>
           </div>
         </div>
@@ -120,8 +136,33 @@
   </div>
 </div>
 
-<!-- modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+
+
+
+<!-- post edit modal -->
+<div class="modal fade" id="edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+        <div class="modal-body">
+          <h4>Edit your caption here -</h4>
+          <input type="hidden" id="edit_post" value="">
+          <textarea id='caption' class="input_controller"></textarea>
+          <input name = 'image' id='image' type="image" style="width:100%;min-height:400px;" src="">
+          <!-- <input type="file" id="edit_file" name="file" value="" style="visibility:hidden">
+          <button type="button" onclick="takeEditInput()" class="button">choose image</button> -->
+        </div>
+        <div class="modal-footer">
+          <button onclick="edit_post()" type="button" class="btn btn-primary">save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Exit</button>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- post delete modal -->
+<div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-body">

@@ -15,14 +15,16 @@
   $result=mysqli_query($link,$sql);
   $row=mysqli_fetch_assoc($result);
 
+
       if (empty($row))
        {
-
           if (!empty($password) and !empty($cpassword) and $password===$cpassword )
              {
+
                  $password_hash=password_hash($password, PASSWORD_DEFAULT);
-                 $sql="INSERT into users (fname,lname,username,email,password_hash) values ('$fname','$lname','$username','$email','$password_hash')";
+                 $sql="INSERT into users (fname,lname,username,email,password_hash,dp_path,designation) values ('$fname','$lname','$username','$email','$password_hash','','')";
                  if (mysqli_query($link,$sql)) {
+
                    $msg='success';
                  }
               }

@@ -904,7 +904,7 @@ h1, h2, h3, h4, h5, h6, p, a {
   color: #222;
 }
 
-#index .right .wrapper .post .open.comment_here{
+#index .right .wrapper .post .comment_here{
   position: relative;
   width:100%;
   min-height: 1px;
@@ -912,7 +912,7 @@ h1, h2, h3, h4, h5, h6, p, a {
   padding: 15px;
 }
 
-#index .right .wrapper .post .open.comment_here .comment_area{
+#index .right .wrapper .post .comment_here .comment_area{
   position: relative;
   width: 100%;
   min-height: 60px;
@@ -925,25 +925,22 @@ h1, h2, h3, h4, h5, h6, p, a {
   border: 1px solid #999;
   }
 
-#index .right .wrapper .post .open.comment_here .comment_area:focus{
+#index .right .wrapper .post .comment_here .comment_area:focus{
   outline:none;
 }
 
-#index .right .wrapper .post .open.comment_here .buttons_pane{
+#index .right .wrapper .post .comment_here .buttons_pane{
   position: relative;
   text-align: right;
 }
 
-#index .right .wrapper .post .open.comment_here .buttons_pane .button{
+#index .right .wrapper .post .comment_here .buttons_pane .button{
   position: relative;
   font-size: 11px;
   padding: 0.3em 1.5em;
   font-weight: 600;
 }
 
-#index .right .wrapper .post .closed.comment_here{
-  display: none;
-}
 /*home page end*/
 
 /*profile*/
@@ -952,7 +949,8 @@ h1, h2, h3, h4, h5, h6, p, a {
   position: relative;
   width:100%;
   min-height: 1px;
-  padding-top: 100px;
+  padding-top: 50px;
+  margin-bottom: 50px;
 }
 
 #profile .profile_card{
@@ -1004,13 +1002,31 @@ h1, h2, h3, h4, h5, h6, p, a {
   padding-top:45px;
 }
 
+#profile .profile_card .grey .clicked.circle{
+  position: absolute;
+  width:120px;
+  height:120px;
+  border-radius: 50%;
+  left:calc(50% - 60px);
+  top:50px;
+  border:8px solid #f5f5f5;
+  background: url('../img/avatar.jpg');
+  background-position:center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+#profile .profile_card .grey .clicked.circle:hover::after{
+  content:"";
+}
+
 #profile .profile_card .intro{
   position: relative;
   text-align: center;
   margin-top: 80px;
 }
 
-#profile .profile_card  .intro h3{
+#profile .profile_card  .intro .name{
   position: relative;
   font-family:Raleway;
   font-weight: 600;
@@ -1019,7 +1035,12 @@ h1, h2, h3, h4, h5, h6, p, a {
   letter-spacing: 1px;
 }
 
-#profile .profile_card  .intro p{
+#profile .profile_card  .intro .name:hover{
+  cursor:pointer;
+  text-decoration: underline;
+}
+
+#profile .profile_card  .intro .designation{
   position: relative;
   font-family:Roboto Condensed;
   font-weight: 400;
@@ -1027,4 +1048,60 @@ h1, h2, h3, h4, h5, h6, p, a {
   text-transform:capitalize;
   color:#555;
   letter-spacing: 2px;
+}
+
+#profile .profile_card  .intro .designation:hover{
+  cursor:pointer;
+  text-decoration: underline;
+}
+
+.input_controller{
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+  color: #222;
+  line-height: 1.2em;
+  border: 1px solid #999;
+}
+
+.input_controller:focus{
+  outline: none;
+}
+
+.input_c{
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+  color: #222;
+  line-height: 1.2em;
+  border: 1px solid #999;
+}
+
+.input_c:focus{
+  outline: none;
+}
+
+.input_con{
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  font-family: Open Sans;
+  font-weight: 400;
+  font-size: 14px;
+  text-align: justify;
+  color: #222;
+  line-height: 1.2em;
+  border: 1px solid #999;
+}
+
+.input_con:focus{
+  outline: none;
 }

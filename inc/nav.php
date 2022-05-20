@@ -17,8 +17,9 @@
         <ul class="nav navbar-nav navbar-right">
             <?php if (isset($_SESSION['logged_in'])): ?>
               <li><a href="index.php">home</a></li>
-              <li><a href="profile.php?<?php echo $_SESSION['user_id']?>">profile</a></li>
-              <li> <a onclick="destroy_session()">logout</a> </li>
+              <li><a href="profile.php">profile</a></li>
+              <!-- <li> <a onclick="destroy_session()">logout</a> </li> -->
+              <li> <a href="handlers/query/logout.php">logout</a> </li>
             <?php else: ?>
               <li><a href="index.php">home</a></li>
               <li><a href="login.php">login</a></li>

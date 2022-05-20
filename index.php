@@ -1,4 +1,7 @@
-<?php include 'handlers/check_login.php';?>
+<?php
+include 'database/initialise_db.php';
+include 'handlers/check_login.php';
+?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <?php
@@ -7,11 +10,12 @@
   <body>
     <?php
     include 'inc/nav.php';
-    print_r($_SESSION);
-    include 'inc/sidebar.php';
+    if (isset($_SESSION['user_id'])) {
+      include 'inc/sidebar.php';
+    }
     include 'inc/index.php';
-    // include 'inc/pagination.php';
     include 'inc/scripts.php';
+    include 'inc/pagination.php';
      ?>
   </body>
 </html>

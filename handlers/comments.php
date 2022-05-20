@@ -9,5 +9,5 @@
   $sql = "INSERT INTO comments (content,user_id,post_id)
   values ('$comment','$user_id','$post_id')";
   mysqli_query($link,$sql);
-  header('location:../index.php');
+  header('location:../index.php#'.$post_id);
  ?>

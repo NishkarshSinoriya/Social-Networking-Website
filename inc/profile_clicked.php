@@ -18,10 +18,10 @@
             <h3 class="name" data-target='#name_modal' data-toggle="modal"><?php echo $profile_row['fname'] ?> <?php echo $profile_row['lname'] ?></h3>
 
             <?php if ($profile_row['designation']== ''): ?>
-              <p class="designation"  data-target='#edit_des_modal' data-toggle="modal">
+              <p class="designation"  data-target='#edit_modal' data-toggle="modal">
                 click to add the designation</p>
             <?php else: ?>
-              <p class="designation"  data-target='#edit_des_modal' data-toggle="modal">
+              <p class="designation"  data-target='#edit_modal' data-toggle="modal">
                 <?php echo $profile_row['designation']?></p>
             <?php endif; ?>
 
@@ -67,9 +67,11 @@
                                   </div>
                                   <div class="timestamp">
                                     <p class="time"><?php echo $row['time_stamp']; ?></p>
-                                    <?php if ($row['user_id']==$_SESSION['user_id']): ?>
+                                    <?php if (isset($_SESSION['user_id']) and $_SESSION['user_id']==$row['user_id']): ?>
                                       <div class="buttons_pane">
-                                        <button onclick="ajaxFetchPostcaption(<?php echo $row['post_id'] ?>)" class="button" data-target='#edit_modal' data-toggle="modal" type="button" name="button">edit</button>
+                                        <!-- <button onclick="ajaxFetchQuery(<php echo $row['post_id'] ?>)" class="button" data-target='#edit_modal' data-toggle="modal" type="button" name="button">edit</button>
+                                        <button onclick="sendId(<php echo $row['post_id'] ?>)" data-target='#delete_modal' data-toggle="modal" class="button" type="submit" name="button">delete</button> -->
+                                        <button onclick="ajaxFetchPostcaptiononclick(<?php echo $row['post_id'] ?>)" class="button" data-target='#edit_modal' data-toggle="modal" type="button" name="button">edit</button>
                                         <button onclick="sendId(<?php echo $row['post_id'] ?>)" data-target='#delete_modal' data-toggle="modal" class="button" type="submit" name="button">delete</button>
                                       </div>
                                     <?php endif; ?>
@@ -94,7 +96,7 @@
                           $re = mysqli_fetch_assoc($out);
                            ?>
                           <ul class="interactions">
-                            <li onclick="increaseLikes(<?php echo $row['post_id']; ?>)">like</li>
+                            <li onclick="increaseLikesPC(<?php echo $row['post_id']; ?>,<?php echo $row['id']; ?>)">like</li>
                             <li id='likes' class="likes"><?php echo $re['sum(likes)']; ?></li>
                           </ul>
 
@@ -131,6 +133,7 @@
       </div>
     </div>
 <?php endwhile; ?>
+
 
 <!-- name edit name modal -->
 <div class="modal fade" id="name_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -191,7 +194,7 @@
         <div class="modal-body">
           <h4>Edit your caption here -</h4>
           <input type="hidden" id="edit_post" value="">
-          <textarea id='caption' class="input_c"></textarea>
+          <textarea id='caption' class="input_con"></textarea>
           <input name = 'image' id='image' type="image" style="width:100%;min-height:400px;" src="">
           <!-- <input type="file" id="edit_file" name="file" value="" style="visibility:hidden">
           <button type="button" onclick="takeEditInput()" class="button">choose image</button> -->

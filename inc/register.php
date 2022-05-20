@@ -84,8 +84,6 @@
 </div>
 
 <script type="text/javascript">
-
-
           $("#fname_error_message").hide();
           $("#lname_error_message").hide();
           $("#username_error_message").hide();
@@ -177,8 +175,8 @@
 
            function check_password() {
               var password_length = $("#form_password").val().length;
-              if (password_length < 5) {
-                 $("#password_error_message").html("Atleast 5 Characters");
+              if (password_length < 8) {
+                 $("#password_error_message").html("Atleast 8 Characters");
                  $("#password_error_message").show();
                  $("#form_password").css("border-bottom","1px solid #F90A0A");
                  error_password = true;

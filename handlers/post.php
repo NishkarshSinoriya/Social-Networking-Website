@@ -4,7 +4,7 @@ require '../inc/db.php';
 if (!isset($_SESSION)) {
   session_start();
 }
-
+print_r($_POST);
 if (isset($_POST['submit'])) {
   $file = $_FILES['file'];
   print_r($file);
@@ -43,9 +43,12 @@ if (isset($_POST['submit'])) {
 $post_caption = $_POST['caption'];
 
 $user_id = $_SESSION['user_id'];
-print_r($_SESSION);
-$sql= "INSERT INTO posts (post_imagepath,post_caption,user_id) values ('$file_destination','$post_caption','$user_id')";
-mysqli_query($link,$sql);
+
+if (isset($_POST['caption']) and $_POST['caption']!="") {
+  $sql= "INSERT INTO posts (post_imagepath,post_caption,user_id) values ('$file_destination','$post_caption','$user_id')";
+  mysqli_query($link,$sql);
+}
+
 header('location:../index.php');
 
  ?>

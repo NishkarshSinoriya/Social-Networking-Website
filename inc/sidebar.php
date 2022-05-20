@@ -10,7 +10,7 @@
         </div>
         <ul>
           <a href="profile.php"><li>profile</li></a>
-          <a href="index.php?logout"><li>log out</li></a>
+          <a href="handlers/query/logout.php"><li>log out</li></a>
         </ul>
         </div>
       </div>
